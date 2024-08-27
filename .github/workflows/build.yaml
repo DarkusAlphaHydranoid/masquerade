@@ -34,6 +34,9 @@ jobs:
     steps:
     - uses: ros-tooling/setup-ros@v0.7
       if: ${{ matrix.BUILD_TYPE == 'source' }}
+    - name: Install system_tests
+      if: ${{ matrix.BUILD_TYPE == 'source' }}
+      run: git clone https://github.com/ros2/system_tests.git
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
@@ -44,5 +47,7 @@ jobs:
         package-name: |
           rmw_zenoh_cpp
           zenoh_c_vendor
+          test_rclcpp
+          system_tests
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
