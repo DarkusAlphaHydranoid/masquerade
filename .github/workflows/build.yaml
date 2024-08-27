@@ -42,7 +42,6 @@ jobs:
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          test_rclcpp
           rmw_zenoh_cpp
           zenoh_c_vendor
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
