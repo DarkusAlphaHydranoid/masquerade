@@ -83,22 +83,6 @@ register_rmw_implementation(
   "c:rosidl_typesupport_c:rosidl_typesupport_fastrtps_c:rosidl_typesupport_introspection_c"
   "cpp:rosidl_typesupport_cpp:rosidl_typesupport_fastrtps_cpp:rosidl_typesupport_introspection_cpp")
 
-if(BUILD_TESTING)
-  find_package(ament_cmake_copyright REQUIRED)
-  find_package(ament_cmake_cpplint REQUIRED)
-  find_package(ament_cmake_lint_cmake REQUIRED)
-  find_package(ament_cmake_uncrustify REQUIRED)
-  find_package(ament_cmake_xmllint REQUIRED)
-
-  set(_linter_excludes src/detail/ordered_hash.hpp src/detail/ordered_map.hpp)
-
-  ament_copyright()
-  ament_cpplint(EXCLUDE ${_linter_excludes})
-  ament_lint_cmake()
-  ament_uncrustify(EXCLUDE ${_linter_excludes})
-  ament_xmllint()
-endif()
-
 install(
   TARGETS rmw_zenoh_cpp
   EXPORT export_rmw_zenoh_cpp
@@ -132,5 +116,24 @@ install(
   TARGETS rmw_zenohd
   DESTINATION lib/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_copyright REQUIRED)
+  find_package(ament_cmake_cpplint REQUIRED)
+  find_package(ament_cmake_lint_cmake REQUIRED)
+  find_package(ament_cmake_uncrustify REQUIRED)
+  find_package(ament_cmake_xmllint REQUIRED)
+  find_package(ros_testing REQUIRED)
+
+  set(_linter_excludes src/detail/ordered_hash.hpp src/detail/ordered_map.hpp)
+
+  ament_copyright()
+  ament_cpplint(EXCLUDE ${_linter_excludes})
+  ament_lint_cmake()
+  ament_uncrustify(EXCLUDE ${_linter_excludes})
+  ament_xmllint()
+
+  add_ros_test(test/rclcpp_integration.test.py)
+endif()
 
 ament_package()
