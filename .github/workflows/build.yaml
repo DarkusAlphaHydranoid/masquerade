@@ -16,9 +16,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        RMW_MIDDLEWARE_TEST_PACKAGES:
-          - test_rclcpp
-          - test_quality_of_service
         include:
           # Rolling (source)
           - ROS_DISTRO: rolling
@@ -31,6 +28,7 @@ jobs:
             BUILD_TYPE: binary
     env:
       ROS2_REPOS_FILE_URL: 'https://raw.githubusercontent.com/ros2/ros2/${{ matrix.ROS_DISTRO }}/ros2.repos'
+      RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp test_quality_of_service'
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
@@ -48,7 +46,7 @@ jobs:
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          ${{ matrix.BUILD_TYPE == 'source' && matrix.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
+          ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
           rmw_zenoh_cpp
           zenoh_c_vendor
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
