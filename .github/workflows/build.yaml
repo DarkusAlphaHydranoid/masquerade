@@ -49,6 +49,5 @@ jobs:
     - name: Run system_tests
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        . /opt/ros/${{ matrix.ROS_DISTRO }}/setup.sh
         . ros_ws/install/setup.sh
         ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
