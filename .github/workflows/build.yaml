@@ -53,5 +53,5 @@ jobs:
     - name: Run system_tests
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        /ros_entrypoint.sh && ros2 run --help
-        /ros_entrypoint.sh && ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
+        ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 run --help
+        ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
