@@ -89,6 +89,8 @@ if(BUILD_TESTING)
   find_package(ament_cmake_lint_cmake REQUIRED)
   find_package(ament_cmake_uncrustify REQUIRED)
   find_package(ament_cmake_xmllint REQUIRED)
+  find_package(launch_testing_ament_cmake)
+  add_launch_test(test/rclcpp_integration.test.py)
 
   set(_linter_excludes src/detail/ordered_hash.hpp src/detail/ordered_map.hpp)
 
@@ -98,9 +100,6 @@ if(BUILD_TESTING)
   ament_uncrustify(EXCLUDE ${_linter_excludes})
   ament_xmllint()
 
-  add_ros_test(
-    test/rclcpp_integration.test.py
-  )
 endif()
 
 install(
