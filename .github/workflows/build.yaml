@@ -49,5 +49,5 @@ jobs:
     - name: Run system_tests
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        /bin/bash -c ros2 run --help
-        /bin/bash -c ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
+        bash -c "ros2 run --help"
+        bash -c "ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py"
