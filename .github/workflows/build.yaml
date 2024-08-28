@@ -16,6 +16,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        RMW_MIDDLEWARE_TEST_PACKAGES:
+          - test_rclcpp
+          - test_quality_of_service
         include:
           # Rolling (source)
           - ROS_DISTRO: rolling
@@ -36,7 +39,6 @@ jobs:
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
-        install-connext: false
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
@@ -46,7 +48,7 @@ jobs:
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          test_rclcpp
+          ${{ matrix.BUILD_TYPE == 'source' && matrix.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
           rmw_zenoh_cpp
           zenoh_c_vendor
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
