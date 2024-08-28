@@ -57,5 +57,5 @@ jobs:
       run: |
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
-        ros2 run --help
-        launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py workspace_directory:=`pwd .`
+        /ros_entrypoint.sh
+        launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
