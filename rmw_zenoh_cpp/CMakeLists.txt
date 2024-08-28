@@ -97,6 +97,10 @@ if(BUILD_TESTING)
   ament_lint_cmake()
   ament_uncrustify(EXCLUDE ${_linter_excludes})
   ament_xmllint()
+
+  add_ros_test(
+    test/rclcpp_integration.test.py
+  )
 endif()
 
 install(
