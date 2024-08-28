@@ -49,8 +49,9 @@ jobs:
           zenoh_c_vendor
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
+        skip-tests: true
     - name: Run system_tests
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        bash -c "ros2 run --help"
-        bash -c "ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py"
+        bash -c "source ./install/setup.bash && ros2 run --help"
+        bash -c "source ./install/setup.bash && ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py"
