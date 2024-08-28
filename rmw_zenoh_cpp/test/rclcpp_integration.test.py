@@ -66,8 +66,6 @@ def generate_test_description():
 
 class TestTerminatingProcessStops(unittest.TestCase):
     def test_proc_terminates(self, proc_info, dut_process):
-        for x in os.environ.copy():
-            print(x, os.environ.copy()[x])
         proc_info.assertWaitForShutdown(process=dut_process, timeout=400000)
 
 # These tests are run after the processes in generate_test_description() have shutdown.
