@@ -51,7 +51,7 @@ jobs:
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
         skip-tests: true
     - name: Run system_tests
-      if: ${{ matrix.BUILD_TYPE == 'source' }}
+      # if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 run --help
-        ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
+        . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 run --help
+        . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 test ros_ws/src/rmw_zenoh/rmw_zenoh_cpp/test/rclcpp_integration.test.py
