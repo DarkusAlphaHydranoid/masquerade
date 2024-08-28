@@ -55,4 +55,4 @@ jobs:
       run: |
         ls ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }} -a
         . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 run --help
-        . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && launch_test ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/src/masquerade/rmw_zenoh_cpp/test/rclcpp_integration.test.py
+        . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && launch_test ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
