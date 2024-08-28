@@ -54,5 +54,6 @@ jobs:
       # if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
-        . /install/setup.sh && ros2 run --help
+        . install/setup.sh
+        ros2 run --help
         launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
