@@ -53,6 +53,6 @@ jobs:
     - name: Run system_tests
       # if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
-        ls ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }} -a
+        cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && ros2 run --help
         . ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/setup.sh && launch_test ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
