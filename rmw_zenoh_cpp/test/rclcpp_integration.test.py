@@ -46,6 +46,7 @@ def generate_test_description():
     )
 
     dut_process = launch.actions.ExecuteProcess(
+        # colcon test --packages-select demo_nodes_cpp --install-base /opt/ros/rolling --test-result-base . --base-paths /opt/ros/rolling/
         cmd=[
             'colcon',
             'test',
@@ -53,6 +54,8 @@ def generate_test_description():
             'test_rclcpp',
             '--retest-until-pass',
             '2',
+            '--base-paths',
+            os.path.join('/opt/ros/', proc_env['ROS_DISTRO'])
         ],
         shell=True,
         env=proc_env,
