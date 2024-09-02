@@ -57,9 +57,9 @@ def generate_test_description():
             '2',
             '--merge-install',
             '--base-paths',
-            os.path.join('/opt/ros/', proc_env['ROS_DISTRO']),
+            os.path.join('/opt/ros/', 'jazzy'),
             '--install-base', 
-            os.path.join('/opt/ros/', proc_env['ROS_DISTRO'])
+            os.path.join('/opt/ros/', 'jazzy')
         ],
         shell=True,
         env=proc_env,
