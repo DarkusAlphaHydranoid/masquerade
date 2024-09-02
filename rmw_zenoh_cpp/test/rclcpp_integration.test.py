@@ -55,6 +55,7 @@ def generate_test_description():
             'test_rclcpp',
             '--retest-until-pass',
             '2',
+            '--merge-install',
             '--base-paths',
             os.path.join('/opt/ros/', proc_env['ROS_DISTRO']),
             '--install-base', 
