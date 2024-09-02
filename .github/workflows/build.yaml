@@ -37,6 +37,7 @@ jobs:
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: |
         git clone https://github.com/ros2/system_tests.git -b ${{ matrix.ROS_DISTRO }}
+        apt update
         rosdep update
         rosdep install --from-paths . -yir
         /ros_entrypoint.sh colcon build  --merge-install --install-base /opt/ros/${{ matrix.ROS_DISTRO }}
