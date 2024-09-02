@@ -37,7 +37,7 @@ jobs:
       # if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
-        # required-ros-distributions: ${{ matrix.ROS_DISTRO }}
+        required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
@@ -50,7 +50,7 @@ jobs:
           rmw_zenoh_cpp
           zenoh_c_vendor
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
-        vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || env.ROS2_REPOS_FILE_URL }}
+        vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
         skip-tests: true
     - name: Run system_tests
       # if: ${{ matrix.BUILD_TYPE == 'source' }}
