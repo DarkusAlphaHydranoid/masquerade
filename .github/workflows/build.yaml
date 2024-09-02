@@ -40,7 +40,7 @@ jobs:
         apt update
         rosdep update
         rosdep install --from-paths . -yir
-        /ros_entrypoint.sh colcon build  --merge-install --install-base /opt/ros/${{ matrix.ROS_DISTRO }}
+        /ros_entrypoint.sh colcon build  --packages-select test_rclcpp --merge-install --install-base /opt/ros/${{ matrix.ROS_DISTRO }} --cmake-args -DBUILD_TESTING=1
         ls /opt/ros/${{ matrix.ROS_DISTRO }}/share
     - uses: ros-tooling/setup-ros@v0.7
       if: ${{ matrix.BUILD_TYPE == 'source' }}
