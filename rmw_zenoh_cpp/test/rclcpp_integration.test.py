@@ -35,8 +35,8 @@ proc_env['RMW_IMPLEMENTATION'] = 'rmw_zenoh_cpp'
 @launch_testing.markers.keep_alive
 def generate_test_description():
 
-    # workspace_directory = launch.substitutions.LaunchConfiguration('workspace_directory')
-    # workspace_directory_arg = launch.actions.DeclareLaunchArgument('workspace_directory')
+    workspace_directory = launch.substitutions.LaunchConfiguration('workspace_directory')
+    workspace_directory_arg = launch.actions.DeclareLaunchArgument('workspace_directory')
 
     zenoh_router = launch_ros.actions.Node(
         package="rmw_zenoh_cpp",
@@ -55,15 +55,17 @@ def generate_test_description():
             '--retest-until-pass',
             '2',
             '--base-paths',
+            os.path.join('/opt/ros/', proc_env['ROS_DISTRO']),
+            '--install-base', 
             os.path.join('/opt/ros/', proc_env['ROS_DISTRO'])
         ],
         shell=True,
         env=proc_env,
-        # cwd=workspace_directory
+        cwd=workspace_directory
     )
 
     return launch.LaunchDescription([
-        # workspace_directory_arg,
+        workspace_directory_arg,
         zenoh_router,
         dut_process,
         # In tests where all of the procs under tests terminate themselves, it's necessary
