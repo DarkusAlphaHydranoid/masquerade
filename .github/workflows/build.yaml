@@ -49,7 +49,7 @@ jobs:
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: nero forte
       run: |
-        /ros_entrypoint.sh rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
+        /ros_entrypoint.sh rosinstall_generator system_tests --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
         cat /tmp/deps.repos
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
