@@ -33,6 +33,11 @@ jobs:
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
+    - name: nero forte
+      run: |
+        rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} \
+          --deps-only --deps --upstream-development > /tmp/deps.repos
+        cat /tmp/deps.repos
     - name: baslangic
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: |
