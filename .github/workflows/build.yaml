@@ -64,7 +64,7 @@ jobs:
       # if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
         . /ros_entrypoint.sh 
-        colcon test --packages-select test_rclcpp --install-base /opt/ros/${{ matrix.ROS_DISTRO }} --test-result-base . --base-paths /opt/ros/${{ matrix.ROS_DISTRO }}
+        colcon test --merge-install --packages-select test_rclcpp --install-base /opt/ros/${{ matrix.ROS_DISTRO }} --test-result-base . --base-paths /opt/ros/${{ matrix.ROS_DISTRO }}
       # cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
       # . install/setup.sh
       # launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py workspace_directory:=`pwd .`
