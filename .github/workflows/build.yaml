@@ -33,11 +33,6 @@ jobs:
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
-    - uses: actions/checkout@v4
-    - name: nero forte
-      run: |
-        /ros_entrypoint.sh rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
-        cat /tmp/deps.repos
     - name: baslangic
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: |
@@ -48,10 +43,14 @@ jobs:
         /ros_entrypoint.sh colcon build --merge-install --packages-select test_rclcpp --install-base /opt/ros/${{ matrix.ROS_DISTRO }} --cmake-args -DBUILD_TESTING=1
         ls /opt/ros/${{ matrix.ROS_DISTRO }}/share
     - uses: ros-tooling/setup-ros@v0.7
-      if: ${{ matrix.BUILD_TYPE == 'source' }}
+      # if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
+    - name: nero forte
+      run: |
+        /ros_entrypoint.sh rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
+        cat /tmp/deps.repos
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
