@@ -36,8 +36,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: nero forte
       run: |
-        rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} \
-          --deps-only --deps --upstream-development > /tmp/deps.repos
+        /ros_entrypoint.sh rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
         cat /tmp/deps.repos
     - name: baslangic
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
