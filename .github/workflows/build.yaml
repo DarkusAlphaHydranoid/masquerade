@@ -47,14 +47,15 @@ jobs:
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
+          env.RMW_MIDDLEWARE_TEST_PACKAGES
           rmw_zenoh_cpp
           zenoh_c_vendor
+        # ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
         skip-tests: true
     - name: Run system_tests
-      if: ${{ matrix.BUILD_TYPE == 'source' }}
+      # if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
