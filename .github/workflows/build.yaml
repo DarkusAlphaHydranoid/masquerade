@@ -31,36 +31,35 @@ jobs:
       RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp rcl'
     runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || format('ros:{0}-ros-base', matrix.ROS_DISTRO) }}
-      # image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
+      image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
     - uses: ros-tooling/setup-ros@v0.7
-      # if: ${{ matrix.BUILD_TYPE == 'source' }}
+      if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
-    - name: Clone System Test
-      run: |
-        apt install ros-${{ matrix.ROS_DISTRO }}-test-rclcpp
     - name: Build and run tests
       id: action-ros-ci
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          ${{ env.RMW_MIDDLEWARE_TEST_PACKAGES }}
+          ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
           rmw_zenoh_cpp
           zenoh_c_vendor
-        # ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
         skip-tests: true
     - name: Run system_tests
-      # if: ${{ matrix.BUILD_TYPE == 'source' }}
+      if: ${{ matrix.BUILD_TYPE == 'source' }}
       run: |
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
-        launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
-
+        launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py workspace_directory:=`pwd .`
+    - uses: actions/upload-artifact@v1
+      with:
+        name: colcon-logs
+        path: ${{ steps.action_ros_ci_step.outputs.ros-workspace-directory-name }}/log
+      if: always() # upload the logs even when the build fails
