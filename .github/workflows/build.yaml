@@ -44,8 +44,7 @@ jobs:
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
     - name: Clone System Test
       run: |
-        git clone https://github.com/ros2/system_tests.git -b ${{ matrix.ROS_DISTRO }}
-        git clone https://github.com/ros2/rcl.git -b ${{ matrix.ROS_DISTRO }}
+        apt install ros-${{ matrix.ROS_DISTRO }}-test-rclcpp
     - name: Build and run tests
       id: action-ros-ci
       uses: ros-tooling/action-ros-ci@v0.3
