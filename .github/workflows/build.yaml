@@ -58,8 +58,13 @@ jobs:
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
         launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py workspace_directory:=`pwd .`
+    - name: Print colcon test results
+      run: |
+        cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
+        . install/setup.sh
+        colcon test-result --all --verbose
     - uses: actions/upload-artifact@v1
       with:
         name: colcon-logs
-        path: ${{ steps.action_ros_ci_step.outputs.ros-workspace-directory-name }}/log
-      if: always() # upload the logs even when the build fails
+        path: ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/log
+      if: ${{ matrix.BUILD_TYPE == 'source' }}
