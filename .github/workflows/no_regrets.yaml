@@ -12,7 +12,7 @@ defaults:
     shell: bash
 jobs:
   build_and_test:
-    name: build_and_test_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
+    name: no_regrets_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
     strategy:
       fail-fast: false
       matrix:
@@ -40,5 +40,5 @@ jobs:
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: elma
       run: |
-        rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
+        /ros_entrypoint.sh rosinstall_generator test_rclcpp --rosdistro ${{ matrix.ROS_DISTRO }} --deps-only --deps --upstream-development > /tmp/deps.repos
         cat /tmp/deps.repos
