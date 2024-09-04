@@ -31,10 +31,11 @@ jobs:
       RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp rcl'
     runs-on: ubuntu-latest
     container:
-      image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
+      image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || format('ros:{0}-ros-base', matrix.ROS_DISTRO) }}
+      # image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
     - uses: ros-tooling/setup-ros@v0.7
-      if: ${{ matrix.BUILD_TYPE == 'source' }}
+      # if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
         required-ros-distributions: ${{ matrix.ROS_DISTRO }}
