@@ -48,7 +48,6 @@ def generate_test_description():
     dut_process = launch.actions.ExecuteProcess(
         # colcon test --packages-select demo_nodes_cpp --install-base /opt/ros/rolling --test-result-base . --base-paths /opt/ros/rolling/
         cmd=[
-            '/ros_entrypoint.sh',
             'colcon',
             'test',
             '--packages-select',
