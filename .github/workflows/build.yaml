@@ -47,7 +47,7 @@ jobs:
       uses: ros-tooling/action-ros-ci@v0.3
       with:
         package-name: |
-          env.RMW_MIDDLEWARE_TEST_PACKAGES
+          ${{ env.RMW_MIDDLEWARE_TEST_PACKAGES }}
           rmw_zenoh_cpp
           zenoh_c_vendor
         # ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
