@@ -13,7 +13,7 @@ defaults:
 jobs:
   build_and_test:
     name: build_and_test_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
-    if: ${{ contains(github.job, 'binary') || (contains(github.job, 'source') && github.event_name == 'schedule') }}
+    if: ${{ contains(github.job.name, 'binary') || (contains(github.job.name, 'source') && github.event_name == 'schedule') }}
     strategy:
       fail-fast: false
       matrix:
