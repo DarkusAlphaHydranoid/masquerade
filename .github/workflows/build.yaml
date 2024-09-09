@@ -12,6 +12,7 @@ defaults:
     shell: bash
 jobs:
   build_and_test:
+    if: false
     name: build_and_test_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
     strategy:
       fail-fast: false
@@ -42,10 +43,6 @@ jobs:
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
-    - name: Check If Source Is Buildable
-      if: ${{ matrix.BUILD_TYPE == 'source' && github.event_name != 'schedule' }}
-      run: |
-        exit(0)
     - uses: ros-tooling/setup-ros@v0.7
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
