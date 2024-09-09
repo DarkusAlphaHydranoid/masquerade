@@ -12,30 +12,14 @@ defaults:
     shell: bash
 jobs:
   build_and_test:
-    if: false
     name: build_and_test_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          # Rolling (source)
-          - ROS_DISTRO: rolling
-            BUILD_TYPE: source
-          # Jazzy (source)
-          - ROS_DISTRO: jazzy
-            BUILD_TYPE: source
-          # Iron (source)
-          - ROS_DISTRO: iron
-            BUILD_TYPE: source
-          # Rolling (binary)
-          - ROS_DISTRO: rolling
-            BUILD_TYPE: binary
-          # Jazzy (binary)
-          - ROS_DISTRO: jazzy
-            BUILD_TYPE: binary
-          # Iron (binary)
-          - ROS_DISTRO: iron
-            BUILD_TYPE: binary
+        ROS_DISTRO: [rolling, jazzy, iron]
+        BUILD_TYPE: [source, binary]
+        exclude:
+          - BUILD_TYPE: ${{ github.event_name != 'schedule' && 'source' || '' }}
     env:
       ROS2_REPOS_FILE_URL: 'https://raw.githubusercontent.com/ros2/ros2/${{ matrix.ROS_DISTRO }}/ros2.repos'
       RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp rcl'
