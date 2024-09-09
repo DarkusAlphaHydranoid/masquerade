@@ -13,7 +13,6 @@ defaults:
 jobs:
   build_and_test:
     name: build_and_test_${{ matrix.BUILD_TYPE }}_${{ matrix.ROS_DISTRO }}
-    if: ${{ contains(github.job.name, 'binary') || (contains(github.job.name, 'source') && github.event_name == 'schedule') }}
     strategy:
       fail-fast: false
       matrix:
@@ -43,6 +42,9 @@ jobs:
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
     steps:
+    - name: Check If Source Is Buildable
+      if: ${{ contains(github.job.name, 'source') && github.event_name != 'schedule' }}
+      run: exit(0)
     - uses: ros-tooling/setup-ros@v0.7
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
