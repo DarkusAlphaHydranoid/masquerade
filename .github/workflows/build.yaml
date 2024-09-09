@@ -20,6 +20,15 @@ jobs:
           # Rolling (source)
           - ROS_DISTRO: rolling
             BUILD_TYPE: source
+          # Jazzy (source)
+          - ROS_DISTRO: jazzy
+            BUILD_TYPE: source
+          # Iron (source)
+          - ROS_DISTRO: iron
+            BUILD_TYPE: source
+          # Rolling (binary)
+          - ROS_DISTRO: rolling
+            BUILD_TYPE: binary
           # Jazzy (binary)
           - ROS_DISTRO: jazzy
             BUILD_TYPE: binary
@@ -58,7 +67,7 @@ jobs:
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
         launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       if: ${{ matrix.BUILD_TYPE == 'source' && github.event_name == 'schedule'}}
       with:
         name: colcon-logs
