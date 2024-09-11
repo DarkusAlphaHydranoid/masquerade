@@ -19,7 +19,7 @@ jobs:
         ROS_DISTRO: [rolling, jazzy, iron]
         BUILD_TYPE: [source, binary]
         exclude:
-          - BUILD_TYPE: ${{ github.event_name == 'schedule' && 'source' || '' }}
+          - BUILD_TYPE: ${{ github.event_name != 'schedule' && 'source' || '' }}
     env:
       ROS2_REPOS_FILE_URL: 'https://raw.githubusercontent.com/ros2/ros2/${{ matrix.ROS_DISTRO }}/ros2.repos'
       RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp rcl'
@@ -52,7 +52,7 @@ jobs:
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
         launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v3
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         name: colcon-logs
