@@ -34,9 +34,11 @@ proc_env['RMW_IMPLEMENTATION'] = 'rmw_zenoh_cpp'
 @pytest.mark.launch_test
 @launch_testing.markers.keep_alive
 def generate_test_description():
-
-    # workspace_directory = launch.substitutions.LaunchConfiguration('workspace_directory')
-    # workspace_directory_arg = launch.actions.DeclareLaunchArgument('workspace_directory')
+ 
+    selected_system_tests = launch.substitutions.LaunchConfiguration('selected_system_tests')
+    selected_system_tests_arg = launch.actions.DeclareLaunchArgument(
+        'selected_system_tests', 
+        default_value="test_rclcpp test_communication")
 
     zenoh_router = launch_ros.actions.Node(
         package="rmw_zenoh_cpp",
@@ -46,22 +48,20 @@ def generate_test_description():
     )
 
     dut_process = launch.actions.ExecuteProcess(
-        # colcon test --packages-select demo_nodes_cpp --install-base /opt/ros/rolling --test-result-base . --base-paths /opt/ros/rolling/
         cmd=[
             'colcon',
             'test',
             '--packages-select',
-            'test_rclcpp',
+            selected_system_tests,
             '--retest-until-pass',
             '2',
         ],
         shell=True,
         env=proc_env,
-        # cwd=workspace_directory
     )
 
     return launch.LaunchDescription([
-        # workspace_directory_arg,
+        selected_system_tests_arg,
         zenoh_router,
         dut_process,
         # In tests where all of the procs under tests terminate themselves, it's necessary
