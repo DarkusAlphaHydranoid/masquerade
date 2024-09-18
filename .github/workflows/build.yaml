@@ -22,7 +22,7 @@ jobs:
           - BUILD_TYPE: ${{ github.event_name == 'schedule' && 'source' || '' }}
     env:
       ROS2_REPOS_FILE_URL: 'https://raw.githubusercontent.com/ros2/ros2/${{ matrix.ROS_DISTRO }}/ros2.repos'
-      RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp rcl'
+      RMW_MIDDLEWARE_TEST_PACKAGES: 'test_rclcpp test_communication rcl'
     runs-on: ubuntu-latest
     container:
       image: ${{ matrix.BUILD_TYPE == 'binary' && format('ros:{0}-ros-base', matrix.ROS_DISTRO) || 'ubuntu:noble' }}
@@ -31,7 +31,6 @@ jobs:
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
         use-ros2-testing: true
-        # required-ros-distributions: ${{ matrix.ROS_DISTRO }}
     - name: Install Coverage Tools
       if: ${{ matrix.BUILD_TYPE == 'binary' }}
       run: sudo apt update && sudo apt install -y python3-colcon-coveragepy-result python3-colcon-lcov-result lcov
@@ -43,6 +42,14 @@ jobs:
           ${{ matrix.BUILD_TYPE == 'source' && env.RMW_MIDDLEWARE_TEST_PACKAGES || '' }}
           rmw_zenoh_cpp
           zenoh_c_vendor
+        colcon-defaults: |
+          {
+            "build": {
+              "cmake-args": [
+                  "-DSKIP_MULTI_RMW_TESTS=ON"
+              ]
+            }
+          }
         target-ros2-distro: ${{ matrix.ROS_DISTRO }}
         vcs-repo-file-url: ${{ matrix.BUILD_TYPE == 'source' && env.ROS2_REPOS_FILE_URL || '' }}
         skip-tests: true
@@ -51,9 +58,9 @@ jobs:
       run: |
         cd ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}
         . install/setup.sh
-        launch_test install/rmw_zenoh_cpp/test/rclcpp_integration.test.py
+        launch_test install/rmw_zenoh_cpp/test/rmw_zenoh_integration.test.py 'selected_system_tests:=${{ env.RMW_MIDDLEWARE_TEST_PACKAGES }}'
     - uses: actions/upload-artifact@v3
       if: ${{ matrix.BUILD_TYPE == 'source' }}
       with:
-        name: colcon-logs
+        name: colcon-logs-${{ matrix.ROS_DISTRO }}-latest
         path: ${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/log
