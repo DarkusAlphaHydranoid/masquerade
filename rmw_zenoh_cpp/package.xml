@@ -25,9 +25,14 @@
   <depend>rosidl_typesupport_fastrtps_cpp</depend>
   <depend>rmw</depend>
 
+  <test_depend>ament_index_python</test_depend>
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-
+<!--   <test_depend>launch_ros</test_depend>
+  <test_depend>launch</test_depend>
+  <test_depend>launch_testing_ros</test_depend>
+  <test_depend>test_rclcpp</test_depend> -->
+  
   <member_of_group>rmw_implementation_packages</member_of_group>
 
   <export>
