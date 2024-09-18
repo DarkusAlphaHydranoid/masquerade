@@ -92,7 +92,7 @@ if(BUILD_TESTING)
   # find_package(ros_testing)
   # add_ros_test(test/rclcpp_integration.test.py)
 
-  install(FILES test/rclcpp_integration.test.py
+  install(FILES test/rmw_zenoh_integration.test.py
     DESTINATION test)
 
   set(_linter_excludes src/detail/ordered_hash.hpp src/detail/ordered_map.hpp)
