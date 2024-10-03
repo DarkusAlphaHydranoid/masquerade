@@ -29,11 +29,11 @@ jobs:
     - name: cpufreq_denemeleri
       run: |
         apt update
-        apt install cpufrequtils -y
+        apt install cpufrequtils tree -y
         lscpu
         sysctl kernel.dmesg_restrict=0
         dmesg | grep -i cpu
         cpufreq-info
-        ls /sys/devices/system/cpu/cpufreq
+        tree /sys/devices/system/cpu/
         cat /sys/devices/system/cpu/cpufreq/policy0/scaling_available_governors
         cpufreq-set -g performance
