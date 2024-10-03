@@ -16,15 +16,27 @@ jobs:
         distro: ['iron', 'jazzy', 'rolling']
     container:
       image: ros:${{ matrix.distro }}-ros-base
+      options: --privileged
+      volumes:
+        - /dev/kmsg:/dev/kmsg
+        - /sys/devices/system/:/sys/devices/system/
     timeout-minutes: 30
     steps:
     - name: Deps
       run: |
         apt update && apt install -y curl
     - uses: actions/checkout@v4
-    - name: rosdep
+    - name: cpufreq_denemeleri
       run: |
-        rosdep update
-        rosdep install --from-paths . -yir
-    - name: build
-      run: /ros_entrypoint.sh colcon build
+        apt update
+        apt install cpufrequtils tree linux-tools-common linux-tools-6.8.0-1014-azure -y
+        lscpu
+        sysctl kernel.dmesg_restrict=0
+        dmesg | grep -i cpu
+        cpufreq-info
+        tree /sys/devices/system/cpu/
+        cat /sys/devices/system/cpu/cpuidle/available_governors
+        cat /sys/devices/system/cpu/cpuidle/current_governor
+        cpupower frequency-info
+        modprobe -l | grep cpu
+        cpufreq-set -g teo
