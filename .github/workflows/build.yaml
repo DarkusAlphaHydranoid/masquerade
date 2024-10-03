@@ -14,17 +14,16 @@ jobs:
       fail-fast: false
       matrix:
         distro: ['iron', 'jazzy', 'rolling']
-    container:
-      image: ros:${{ matrix.distro }}-ros-base
+    # container:
+    #   image: ros:${{ matrix.distro }}-ros-base
     timeout-minutes: 30
     steps:
     - name: Deps
       run: |
         apt update && apt install -y curl
     - uses: actions/checkout@v4
-    - name: rosdep
+    - name: cpufreq_denemeleri
       run: |
-        rosdep update
-        rosdep install --from-paths . -yir
-    - name: build
-      run: /ros_entrypoint.sh colcon build
+        apt update
+        apt install cpufrequtils
+        cpufreq-info
