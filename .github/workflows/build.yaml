@@ -29,12 +29,13 @@ jobs:
     - name: cpufreq_denemeleri
       run: |
         apt update
-        apt install cpufrequtils tree linux-tools-common linux-cloud-tools-azure linux-tools-azure -y
+        apt install cpufrequtils tree linux-tools-common linux-tools-6.8.0-1014-azure -y
         lscpu
         sysctl kernel.dmesg_restrict=0
         dmesg | grep -i cpu
         cpufreq-info
         tree /sys/devices/system/cpu/
         cat /sys/devices/system/cpu/cpuidle/available_governors
+        cat /sys/devices/system/cpu/cpuidle/current_governor
         cpupower frequency-info
         cpufreq-set -g performance
