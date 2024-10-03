@@ -18,7 +18,6 @@ jobs:
       image: ros:${{ matrix.distro }}-ros-base
       options: --privileged
       volumes:
-        - /proc/sys/net/:/proc/sys/net
         - /dev/kmsg:/dev/kmsg
     timeout-minutes: 30
     steps:
