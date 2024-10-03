@@ -25,6 +25,8 @@ jobs:
     - name: cpufreq_denemeleri
       run: |
         apt update
-        apt install cpufrequtils -y
+        apt install lscpu cpufrequtils -y
+        lscpu
+        dmesg | grep -i cpu
         cpufreq-info
         cpufreq-set -g performance
