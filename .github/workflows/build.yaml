@@ -38,4 +38,5 @@ jobs:
         cat /sys/devices/system/cpu/cpuidle/available_governors
         cat /sys/devices/system/cpu/cpuidle/current_governor
         cpupower frequency-info
+        modprobe -l | grep cpu
         cpufreq-set -g teo
