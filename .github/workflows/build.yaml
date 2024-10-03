@@ -27,3 +27,4 @@ jobs:
         apt update
         apt install cpufrequtils -y
         cpufreq-info
+        cpufreq-set -u 1.6Ghz
