@@ -27,6 +27,7 @@ jobs:
         apt update
         apt install cpufrequtils -y
         lscpu
+        sysctl kernel.dmesg_restrict=0
         dmesg | grep -i cpu
         cpufreq-info
         cpufreq-set -g performance
